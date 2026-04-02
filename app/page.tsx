@@ -1,8 +1,24 @@
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+import { AuthModalLauncher } from "@/components/auth/AuthModalLauncher";
+
+type HomePageProps = {
+  searchParams?: {
+    auth?: "sign-in" | "sign-up";
+  };
+};
+
+export default async function Home({ searchParams }: HomePageProps) {
+  const { userId } = await auth();
+  if (userId) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <AuthModalLauncher auth={searchParams?.auth} />
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Image
           className="dark:invert"
