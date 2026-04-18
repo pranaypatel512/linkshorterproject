@@ -12,9 +12,9 @@ export function AuthModalLauncher({ auth }: AuthModalLauncherProps) {
 
   useEffect(() => {
     if (auth === "sign-in") {
-      clerk.openSignIn();
+      clerk.openSignIn({ forceRedirectUrl: "/dashboard" });
     } else if (auth === "sign-up") {
-      clerk.openSignUp();
+      clerk.openSignUp({ forceRedirectUrl: "/dashboard" });
     }
   }, [auth, clerk]);
 
